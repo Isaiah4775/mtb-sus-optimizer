@@ -1,0 +1,13 @@
+@copilot implement v1 of the MTB suspension optimizer:
+
+- Split design: gui/ (PySide6 polyline editor) + optimizer/ (headless CLI).
+- Draw/edit/import/export two curves:
+  - frame_curve in world coords (+x forward, +y up)
+  - rt_curve in rear-triangle local coords, axle at (0,0)
+- Save/load project.json with: travel_mm, sag_pct, n_steps, Ay_sag_abs (25–450mm), link length bounds, constraints, optimizer settings.
+- Optimizer variables: two params on frame curve + two on rt curve (upper = larger y), and Lu/Ll optimized in bounds.
+- Travel: Ay_target[i] = (Ay_sag_abs + sag_mm) - u[i]
+- Kinematics: with A_rt=(0,0), set y = Ay_target[i] and solve for (x,theta) per step using two squared-distance equations (marching initial guess).
+- Compute instant center as intersection of UF→URw and LF→LRw.
+- Exports: best_design.json, trajectory_best.csv, plots PNG: wheelpath, ic_path, theta_vs_travel, dx_vs_travel.
+- Include README with run instructions and a sample project.json.
